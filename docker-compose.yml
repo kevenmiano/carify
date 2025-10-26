@@ -1,0 +1,30 @@
+services:
+  mariadb:
+    image: mariadb:11.4
+    container_name: carify-mariadb
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    deploy:
+      resources:
+        limits:
+          cpus: "1.5"
+          memory: "350MB"
+    networks:
+      - carify-network
+
+networks:
+  carify-network:
+    driver: bridge
+
+volumes:
+  mariadb_data:
+    driver: local
