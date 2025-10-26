@@ -1,0 +1,19 @@
+[project]
+name = "carify"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "kevenmiano",email = "k_l.s@outlook.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12,<4.0"
+dependencies = [
+    "flask-cors (>=6.0.1,<7.0.0)",
+    "flask (>=3.1.2,<4.0.0)",
+    "dotenv (>=0.9.9,<0.10.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
