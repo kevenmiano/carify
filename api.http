@@ -1,0 +1,190 @@
+###
+# Carify API - HTTP Requests
+# Use com REST Client (VSCode) ou HTTP Client (IntelliJ)
+###
+
+@baseUrl = http://localhost:3000
+@contentType = application/json
+
+### ============================================
+### INFO & HEALTH
+### ============================================
+
+### Raiz da API
+GET {{baseUrl}}/
+Accept: {{contentType}}
+
+### Health Check
+GET {{baseUrl}}/health
+Accept: {{contentType}}
+
+### ============================================
+### PROPRIETÁRIOS - CREATE
+### ============================================
+
+### Criar Proprietário - Sucesso
+POST {{baseUrl}}/proprietarios
+Content-Type: {{contentType}}
+
+{
+  "nome": "João da Silva",
+  "email": "joao.silva@example.com",
+  "telefone": "11987654321",
+  "cpf": "12345678900"
+}
+
+### Criar Proprietário - Outro exemplo
+POST {{baseUrl}}/proprietarios
+Content-Type: {{contentType}}
+
+{
+  "nome": "Maria Santos",
+  "email": "maria.santos@example.com",
+  "telefone": "21987654321",
+  "cpf": "98765432100"
+}
+
+### Criar Proprietário - Email inválido (deve falhar)
+POST {{baseUrl}}/proprietarios
+Content-Type: {{contentType}}
+
+{
+  "nome": "Pedro Oliveira",
+  "email": "email-invalido",
+  "telefone": "31987654321",
+  "cpf": "11122233344"
+}
+
+### Criar Proprietário - CPF inválido (deve falhar)
+POST {{baseUrl}}/proprietarios
+Content-Type: {{contentType}}
+
+{
+  "nome": "Ana Costa",
+  "email": "ana.costa@example.com",
+  "telefone": "41987654321",
+  "cpf": "123"
+}
+
+### Criar Proprietário - Campos faltando (deve falhar)
+POST {{baseUrl}}/proprietarios
+Content-Type: {{contentType}}
+
+{
+  "nome": "Carlos Silva"
+}
+
+### Criar Proprietário - CPF duplicado (deve falhar)
+# Execute este depois de criar o primeiro proprietário
+POST {{baseUrl}}/proprietarios
+Content-Type: {{contentType}}
+
+{
+  "nome": "João Duplicado",
+  "email": "joao.duplicado@example.com",
+  "telefone": "11987654321",
+  "cpf": "12345678900"
+}
+
+### ============================================
+### PROPRIETÁRIOS - LIST
+### ============================================
+
+### Listar Todos os Proprietários
+GET {{baseUrl}}/proprietarios
+Accept: {{contentType}}
+
+### ============================================
+### PROPRIETÁRIOS - GET BY ID
+### ============================================
+
+### Buscar Proprietário por ID (ID = 1)
+GET {{baseUrl}}/proprietarios/1
+Accept: {{contentType}}
+
+### Buscar Proprietário por ID (ID = 2)
+GET {{baseUrl}}/proprietarios/2
+Accept: {{contentType}}
+
+### Buscar Proprietário inexistente (deve retornar 404)
+GET {{baseUrl}}/proprietarios/999
+Accept: {{contentType}}
+
+### ============================================
+### SWAGGER DOCS
+### ============================================
+
+### OpenAPI JSON Schema
+GET {{baseUrl}}/docs/openapi.json
+Accept: {{contentType}}
+
+### Swagger UI (HTML)
+GET {{baseUrl}}/docs/swagger/
+Accept: text/html
+
+### Redoc UI (HTML)
+GET {{baseUrl}}/docs/redoc/
+Accept: text/html
+
+### Scalar UI (HTML)
+GET {{baseUrl}}/docs/scalar/
+Accept: text/html
+
+### ============================================
+### EXEMPLOS COM VARIÁVEIS
+### ============================================
+
+### Criar e Salvar ID para uso posterior
+# @name createProprietario
+POST {{baseUrl}}/proprietarios
+Content-Type: {{contentType}}
+
+{
+  "nome": "Teste Variável",
+  "email": "teste.variavel@example.com",
+  "telefone": "11999887766",
+  "cpf": "55544433322"
+}
+
+### Buscar o proprietário criado acima
+# Usa o ID retornado da requisição anterior
+@proprietarioId = {{createProprietario.response.body.id}}
+GET {{baseUrl}}/proprietarios/{{proprietarioId}}
+Accept: {{contentType}}
+
+### ============================================
+### BATCH REQUESTS
+### ============================================
+
+### Criar múltiplos proprietários
+POST {{baseUrl}}/proprietarios
+Content-Type: {{contentType}}
+
+{
+  "nome": "Batch User 1",
+  "email": "batch1@example.com",
+  "telefone": "11111111111",
+  "cpf": "11111111111"
+}
+
+###
+POST {{baseUrl}}/proprietarios
+Content-Type: {{contentType}}
+
+{
+  "nome": "Batch User 2",
+  "email": "batch2@example.com",
+  "telefone": "22222222222",
+  "cpf": "22222222222"
+}
+
+###
+POST {{baseUrl}}/proprietarios
+Content-Type: {{contentType}}
+
+{
+  "nome": "Batch User 3",
+  "email": "batch3@example.com",
+  "telefone": "33333333333",
+  "cpf": "33333333333"
+}
